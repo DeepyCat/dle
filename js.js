@@ -91,6 +91,11 @@ async function checkGuess() {
              const numTarget = parseInt(secretCharacter.age);
              content += (numVal < numTarget ? " ⬆" : " ⬇");
         }
+         if (!isCorrect && attr.key === 'arc' && !isNaN(val) && !isNaN(secretCharacter.arc)) {
+             const numVal = parseInt(val);
+             const numTarget = parseInt(secretCharacter.arc);
+             content += (numVal < numTarget ? " ⬆" : " ⬇");
+        }
         
         div.innerText = content;
         attemptRow.appendChild(div);
