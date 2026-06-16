@@ -65,7 +65,7 @@ async function checkGuess() {
 
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
-    if (data.name === secretCharacter.name) alert("Gratuluji!");
+    
 }
 
 document.getElementById('guessBtn').addEventListener('click', checkGuess);
