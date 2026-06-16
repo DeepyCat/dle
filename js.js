@@ -6,23 +6,29 @@ const input = document.getElementById('guessInput');
 const suggestionsList = document.getElementById('suggestions');
 let secretCharacter = null;
 
+// Daily
 async function loadSecretCharacter() {
     const { data } = await client.from('charakters').select('id');
     if (!data || data.length === 0) return;
 
-    const today = new Date().toISOString().split('T')[0];
+    
+    const now = new Date();
+    const today = now.getUTCFullYear() + '-' + (now.getUTCMonth() + 1) + '-' + now.getUTCDate();
+    
     let hash = 0;
     for (let i = 0; i < today.length; i++) {
         hash = today.charCodeAt(i) + ((hash << 5) - hash);
     }
+    
     const index = Math.abs(hash) % data.length;
     const { data: characterData } = await client.from('charakters').select('*').eq('id', data[index].id).single();
     
     secretCharacter = characterData;
-    console.log("Dnešní postava:", secretCharacter.name);
+    console.log("Daily:", secretCharacter.name);
 }
 loadSecretCharacter();
 
+// fih
 input.addEventListener('input', async () => {
   const query = input.value.trim();
   if (query.length < 2) { suggestionsList.innerHTML = ''; return; }
@@ -41,31 +47,58 @@ input.addEventListener('input', async () => {
   }
 });
 
+// Main
 async function checkGuess() {
-    const { data } = await client.from('charakters').select('*').ilike('name', input.value.trim()).maybeSingle();
+    const { data, error } = await client.from('charakters').select('*').ilike('name', input.value.trim()).maybeSingle();
     if (!data) { alert("Postava nenalezena!"); return; }
 
     const attemptRow = document.createElement('div');
     attemptRow.className = 'attempt-row'; 
+
+    
+    const imgBox = document.createElement('div');
+    imgBox.className = 'box';
+    const img = document.createElement('img');
+    img.src = data.img;
+    img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '8px';
+    imgBox.appendChild(img);
+    attemptRow.appendChild(imgBox);
+
+    // 2. Atributy
     const attrs = [
-        { key: 'name', label: 'Jméno' }, { key: 'gender', label: 'Pohlaví' },
-        { key: 'race', label: 'Rasa' }, { key: 'age', label: 'Věk' },
-        { key: 'hair_color', label: 'Vlasy' }, { key: 'eye_color', label: 'Oči' },
-        { key: 'affiliation', label: 'Affiliation' }, { key: 'arc', label: 'Arc' }
-    ];
+    { key: 'name', label: 'Name' },
+    { key: 'gender', label: 'Gender' },
+    { key: 'role', label: 'Role' },
+    { key: 'race', label: 'Race' },
+    { key: 'age', label: 'Age' },
+    { key: 'hair_color', label: 'Hair' },
+    { key: 'eye_color', label: 'Eyes' },
+    { key: 'affiliation', label: 'Affiliation' },
+    { key: 'arc', label: 'Arc' }
+];
 
     attrs.forEach(attr => {
         const val = data[attr.key];
         const isCorrect = (val === secretCharacter[attr.key]);
         const div = document.createElement('div');
         div.className = `box ${isCorrect ? 'green' : 'red'}`;
-        div.innerText = val + (!isCorrect && typeof val === 'number' ? (val < secretCharacter[attr.key] ? " ⬆️" : " ⬇️") : "");
+        
+        let content = val;
+        
+        
+        if (!isCorrect && attr.key === 'age' && !isNaN(val) && !isNaN(secretCharacter.age)) {
+             const numVal = parseInt(val);
+             const numTarget = parseInt(secretCharacter.age);
+             content += (numVal < numTarget ? " ⬆" : " ⬇");
+        }
+        
+        div.innerText = content;
         attemptRow.appendChild(div);
     });
 
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
-   
+  
 }
 
 document.getElementById('guessBtn').addEventListener('click', checkGuess);

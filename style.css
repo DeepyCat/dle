@@ -46,3 +46,23 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 #guessBtn:active {
     transform: scale(0.98); 
 }
+.box img {
+    display: block; /* Odstraní mezeru pod obrázkem */
+}
+.header-row { 
+    display: flex; 
+    flex-direction: row; 
+    gap: 8px; 
+    justify-content: center; 
+    margin-top: 20px; 
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #888; /* Šedá barva, aby tolik nerušila */
+}
+
+.header-box { 
+    width: 110px; 
+    text-align: center; 
+    font-size: 12px;
+    text-transform: uppercase;
+}
