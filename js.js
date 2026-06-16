@@ -11,7 +11,6 @@ async function loadSecretCharacter() {
     const { data } = await client.from('charakters').select('id');
     if (!data || data.length === 0) return;
 
-    
     const now = new Date();
     const today = now.getUTCFullYear() + '-' + (now.getUTCMonth() + 1) + '-' + now.getUTCDate();
     
@@ -55,7 +54,6 @@ async function checkGuess() {
     const attemptRow = document.createElement('div');
     attemptRow.className = 'attempt-row'; 
 
-    
     const imgBox = document.createElement('div');
     imgBox.className = 'box';
     const img = document.createElement('img');
@@ -66,16 +64,16 @@ async function checkGuess() {
 
     // 2. Atributy
     const attrs = [
-    { key: 'name', label: 'Name' },
-    { key: 'gender', label: 'Gender' },
-    { key: 'role', label: 'Role' },
-    { key: 'race', label: 'Race' },
-    { key: 'age', label: 'Age' },
-    { key: 'hair_color', label: 'Hair' },
-    { key: 'eye_color', label: 'Eyes' },
-    { key: 'affiliation', label: 'Affiliation' },
-    { key: 'arc', label: 'Arc' }
-];
+        { key: 'name', label: 'Name' },
+        { key: 'gender', label: 'Gender' },
+        { key: 'role', label: 'Role' },
+        { key: 'race', label: 'Race' },
+        { key: 'age', label: 'Age' },
+        { key: 'hair_color', label: 'Hair' },
+        { key: 'eye_color', label: 'Eyes' },
+        { key: 'affiliation', label: 'Affiliation' },
+        { key: 'arc', label: 'Arc' }
+    ];
 
     attrs.forEach(attr => {
         const val = data[attr.key];
@@ -85,13 +83,12 @@ async function checkGuess() {
         
         let content = val;
         
-        
         if (!isCorrect && attr.key === 'age' && !isNaN(val) && !isNaN(secretCharacter.age)) {
              const numVal = parseInt(val);
              const numTarget = parseInt(secretCharacter.age);
              content += (numVal < numTarget ? " ⬆" : " ⬇");
         }
-         if (!isCorrect && attr.key === 'arc' && !isNaN(val) && !isNaN(secretCharacter.arc)) {
+        if (!isCorrect && attr.key === 'arc' && !isNaN(val) && !isNaN(secretCharacter.arc)) {
              const numVal = parseInt(val);
              const numTarget = parseInt(secretCharacter.arc);
              content += (numVal < numTarget ? " ⬆" : " ⬇");
@@ -103,7 +100,6 @@ async function checkGuess() {
 
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
-  
 }
 
 document.getElementById('guessBtn').addEventListener('click', checkGuess);
