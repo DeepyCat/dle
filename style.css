@@ -25,3 +25,24 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 
 .green { background-color: #27ae60; }
 .red { background-color: #c0392b; }
+#guessBtn {
+    padding: 12px 25px;
+    margin-left: 10px;
+    background-color: #2b2b2b; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+#guessBtn:hover {
+    background-color: #333333; 
+}
+
+#guessBtn:active {
+    transform: scale(0.98); 
+}
