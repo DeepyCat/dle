@@ -8,15 +8,27 @@
 </head>
 <body>
 
+    <button id="openGalleryBtn">☰</button>
+
+    <div id="sideGallery" class="side-gallery">
+        <div class="gallery-header">
+            <h3>A little help</h3>
+            <button id="closeGalleryBtn">✕</button>
+        </div>
+        <div id="galleryContent"></div>
+    </div>
+
     <h1>PeakdleV2</h1>
     <p>Daily Re:Zero characters. (anime only - Arc 6)</p>
-    <br><br><br>
+    <br>
+    
     <div class="search-container">
         <input type="text" id="guessInput" placeholder="Name" autocomplete="off">
         <ul id="suggestions"></ul>
     </div>
 
-    <button id="guessBtn" >Guess</button>
+    <button id="guessBtn">Guess</button>
+
     <div class="header-row">
         <div class="header-box">Img</div>
         <div class="header-box">Name</div>
