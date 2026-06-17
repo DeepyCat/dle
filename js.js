@@ -90,6 +90,6 @@ async function checkGuess() {
     });
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
-    if (data.name === secretCharacter.name) alert("Gratuluji, uhodl jsi!");
+  
 }
 document.getElementById('guessBtn').addEventListener('click', checkGuess);
