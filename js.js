@@ -30,7 +30,7 @@ loadSecretCharacter();
 // fih
 input.addEventListener('input', async () => {
   const query = input.value.trim();
-  if (query.length < 2) { suggestionsList.innerHTML = ''; return; }
+  if (query.length < 1) { suggestionsList.innerHTML = ''; return; }
 
   const { data } = await client.from('charakters').select('name, img').ilike('name', `%${query}%`).limit(5);
   suggestionsList.innerHTML = '';
