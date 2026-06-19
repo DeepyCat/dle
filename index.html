@@ -5,6 +5,7 @@
     <title>PeakdleV2</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/x-icon" href="img/Flogo.jpg">
 </head>
 <body>
 
@@ -29,6 +30,15 @@
 
     <button id="guessBtn">Guess</button>
 
+    <p>Tries: <span id="attemptCount">0</span></p>
+
+<div id="winPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-content">
+        <h2 id="winMessage"></h2>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
     <div class="header-row">
         <div class="header-box">Img</div>
         <div class="header-box">Name</div>
@@ -42,7 +52,9 @@
         <div class="header-box">Arc</div>
     </div>
     <div id="gameBoard"></div>
-
+    <div id="winPopup" class="popup-overlay">
+ 
+</div>
     <script src="js.js"></script>
 </body>
 </html>

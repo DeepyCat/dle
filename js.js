@@ -5,15 +5,13 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const input = document.getElementById('guessInput');
 const suggestionsList = document.getElementById('suggestions');
 let secretCharacter = null;
+let attempts = 0;
 
-// Galerie
+//Galery
 async function loadGallery() {
     const { data } = await client.from('charakters').select('name, img');
-    
     if (data) {
-       
         data.sort((a, b) => a.name.localeCompare(b.name));
-
         const galleryContent = document.getElementById('galleryContent');
         data.forEach(char => {
             const div = document.createElement('div');
@@ -27,7 +25,6 @@ loadGallery();
 
 document.getElementById('openGalleryBtn').onclick = () => document.getElementById('sideGallery').classList.add('open');
 document.getElementById('closeGalleryBtn').onclick = () => document.getElementById('sideGallery').classList.remove('open');
-
 // Daily
 async function loadSecretCharacter() {
     const { data } = await client.from('charakters').select('id');
@@ -41,11 +38,10 @@ async function loadSecretCharacter() {
     secretCharacter = characterData;
 }
 loadSecretCharacter();
-
-// Hádání
+// Fih
 input.addEventListener('input', async () => {
   const query = input.value.trim();
-  if (query.length < 1) { suggestionsList.innerHTML = ''; return; }
+  if (query.length < 0) { suggestionsList.innerHTML = ''; return; }
   const { data } = await client.from('charakters').select('name, img').ilike('name', `%${query}%`).limit(5);
   suggestionsList.innerHTML = '';
   if (data) {
@@ -59,11 +55,15 @@ input.addEventListener('input', async () => {
     });
   }
 });
-
+// Main
 async function checkGuess() {
     if (!secretCharacter) return;
     const { data } = await client.from('charakters').select('*').ilike('name', input.value.trim()).maybeSingle();
     if (!data) { alert("Postava nenalezena!"); return; }
+    
+    attempts++;
+    document.getElementById('attemptCount').innerText = attempts;
+
     const attemptRow = document.createElement('div');
     attemptRow.className = 'attempt-row';
     const imgBox = document.createElement('div');
@@ -71,11 +71,13 @@ async function checkGuess() {
     const img = document.createElement('img');
     img.src = data.img; img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '8px';
     imgBox.appendChild(img); attemptRow.appendChild(imgBox);
+    
     const attrs = [
         { key: 'name', label: 'Name' }, { key: 'gender', label: 'Gender' }, { key: 'role', label: 'Role' },
         { key: 'race', label: 'Race' }, { key: 'age', label: 'Age' }, { key: 'hair_color', label: 'Hair' },
         { key: 'eye_color', label: 'Eyes' }, { key: 'affiliation', label: 'Affiliation' }, { key: 'arc', label: 'Arc' }
     ];
+    
     attrs.forEach(attr => {
         const val = data[attr.key];
         const isCorrect = (val === secretCharacter[attr.key]);
@@ -88,8 +90,20 @@ async function checkGuess() {
         div.innerText = content;
         attemptRow.appendChild(div);
     });
+    
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
-  
+
+    if (data.name === secretCharacter.name) {
+        document.getElementById('winPopup').style.display = 'flex';
+        document.getElementById('winMessage').innerText = `🎉 Hell yeah ${attempts}. tries! 🎉`;
+        input.disabled = true;
+        document.getElementById('guessBtn').disabled = true;
+    }
 }
+
+function closePopup() {
+    document.getElementById('winPopup').style.display = 'none';
+}
+
 document.getElementById('guessBtn').addEventListener('click', checkGuess);
