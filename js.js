@@ -29,15 +29,50 @@ document.getElementById('closeGalleryBtn').onclick = () => document.getElementBy
 async function loadSecretCharacter() {
     const { data } = await client.from('charakters').select('id');
     if (!data || data.length === 0) return;
+
     const now = new Date();
     const today = now.getUTCFullYear() + '-' + (now.getUTCMonth() + 1) + '-' + now.getUTCDate();
+
     let hash = 0;
-    for (let i = 0; i < today.length; i++) hash = today.charCodeAt(i) + ((hash << 5) - hash);
-    const index = Math.abs(hash) % data.length;
+    for (let i = 0; i < today.length; i++) {
+        hash = today.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let seededRandom = Math.abs(hash);
+    function random() {
+        seededRandom = (seededRandom * 9301 + 49297) % 233280;
+        return seededRandom / 233280;
+    }
+
+    const index = Math.floor(random() * data.length);
     const { data: characterData } = await client.from('charakters').select('*').eq('id', data[index].id).single();
     secretCharacter = characterData;
 }
+// Timer
+function updateTimer() {
+    const now = new Date();
+    const nextMidnight = new Date();
+    nextMidnight.setUTCDate(nextMidnight.getUTCDate() + 1);
+    nextMidnight.setUTCHours(0, 0, 0, 0);
+    
+    const diff = nextMidnight - now;
+    
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    
+    const timerDisplay = [h, m, s]
+        .map(v => v.toString().padStart(2, '0'))
+        .join(':');
+        
+    const timerElement = document.getElementById('timer');
+    if (timerElement) {
+        timerElement.innerText = timerDisplay;
+    }
+}
 loadSecretCharacter();
+setInterval(updateTimer, 1000);
+updateTimer();
 // Fih
 input.addEventListener('input', async () => {
   const query = input.value.trim();
