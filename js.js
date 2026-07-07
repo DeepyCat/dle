@@ -31,7 +31,7 @@ async function loadSecretCharacter() {
     if (!data || data.length === 0) return;
 
     const now = new Date();
-    const today = now.getUTCFullYear() + '-' + (now.getUTCMonth() + 1) + '-' + now.getUTCDate();
+    const today = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
 
     let hash = 0;
     for (let i = 0; i < today.length; i++) {
@@ -51,9 +51,11 @@ async function loadSecretCharacter() {
 // Timer
 function updateTimer() {
     const now = new Date();
+    
+    
     const nextMidnight = new Date();
-    nextMidnight.setUTCDate(nextMidnight.getUTCDate() + 1);
-    nextMidnight.setUTCHours(0, 0, 0, 0);
+    nextMidnight.setDate(nextMidnight.getDate() + 1);
+    nextMidnight.setHours(0, 0, 0, 0);
     
     const diff = nextMidnight - now;
     
@@ -89,6 +91,23 @@ input.addEventListener('input', async () => {
       suggestionsList.appendChild(li);
     });
   }
+});
+//hint
+document.getElementById('hintBtn').addEventListener('click', () => {
+    if (!secretCharacter) return;
+
+    const hintDisplay = document.getElementById('hintDisplay');
+    
+    
+    if (!secretCharacter.hint) {
+        hintDisplay.innerText = "No hint available for this character.";
+    } else {
+        hintDisplay.innerText = `Hint: ${secretCharacter.hint}`;
+    }
+
+    
+    document.getElementById('hintBtn').disabled = true;
+    document.getElementById('hintBtn').style.opacity = '0.5';
 });
 // Main
 async function checkGuess() {
