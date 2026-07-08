@@ -86,11 +86,11 @@ body.mushuku-page { background-image: url('img/mushuku-bg.jpg'); }
 .red { background-color: #c0392b; }
 
 .search-container { position: relative; display: inline-block; }
-input { padding: 12px; width: 280px; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-size: 16px; }
+input { padding: 12px; width: 280px; border-radius: 8px; border: none; background: #2a2a2aa2; color: white; font-size: 16px; }
 
-#suggestions { list-style: none; padding: 0; margin: 5px 0 0 0; background: #2a2a2a; width: 280px; border-radius: 0 0 8px 8px; position: absolute; left: 0; top: 100%; z-index: 10; max-height: 200px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+#suggestions { list-style: none; padding: 0; margin: 5px 0 0 0; background: #2a2a2aa2; width: 280px; border-radius: 0 0 8px 8px; position: absolute; left: 0; top: 100%; z-index: 10; max-height: 200px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
 #suggestions li { padding: 10px; cursor: pointer; text-align: left; border-bottom: 1px solid #444; display: flex; align-items: center; }
-#suggestions li:hover { background: #444; }
+#suggestions li:hover { background: #444444af; }
 
 
 #guessBtn, #hintBtn, #nextBtn, #endlessBtn { padding: 12px 25px; margin-left: 10px; border: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s ease; backdrop-filter: blur(5px)}
