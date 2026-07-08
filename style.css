@@ -174,10 +174,11 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
         
     }
 
-       .rezero { 
+    .rezero { 
+        background-size: 150% auto;
         clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); 
         margin-top: -90px;
-        background-position: 0% -10500%;
+        background-position: 30% 2500%;
     }
     
     .mushoku { 
