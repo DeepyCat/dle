@@ -13,6 +13,7 @@ body {
 
 body.rezero-page { background-image: url('img/rezero-bg.jpg'); }
 body.konosuba-page { background-image: url('img/konosuba-bg.jpg'); }
+body.mushuku-page { background-image: url('img/mushuku-bg.jpg'); }
 
 .main-container {
     background-color: rgba(0, 0, 0, 0.6);
