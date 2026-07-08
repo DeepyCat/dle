@@ -39,4 +39,23 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 
 #hintBtn { padding: 12px 25px; margin-left: 10px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
 #hintBtn:hover { background-color: #2980b9; }
-#hintDisplay { text-align: center; font-weight: bold; 
+#hintDisplay { text-align: center; font-weight: bold; }
+
+#nextBtn { 
+    padding: 12px 25px; 
+    margin-left: 10px; 
+    background-color: #575757; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    text-decoration: none; 
+    display: inline-block; 
+    transition: background-color 0.3s ease;
+}
+
+#nextBtn:hover { 
+    background-color: #707070; 
+}

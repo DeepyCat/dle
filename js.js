@@ -1,6 +1,7 @@
 const SUPABASE_URL = 'https://lhthnrgmxxvngmggqllc.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_ksCxhs8SKCcnoPkeN3aH7g_Pu5ZVJ1D';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const TABLE_NAME = window.TABLE_NAME || 'charakters';
 
 const input = document.getElementById('guessInput');
 const suggestionsList = document.getElementById('suggestions');
@@ -9,7 +10,7 @@ let attempts = 0;
 
 //Galery
 async function loadGallery() {
-    const { data } = await client.from('charakters').select('name, img');
+    const { data } = await client.from('TABLE_NAME').select('name, img');
     if (data) {
         data.sort((a, b) => a.name.localeCompare(b.name));
         const galleryContent = document.getElementById('galleryContent');
@@ -27,7 +28,7 @@ document.getElementById('openGalleryBtn').onclick = () => document.getElementByI
 document.getElementById('closeGalleryBtn').onclick = () => document.getElementById('sideGallery').classList.remove('open');
 // Daily
 async function loadSecretCharacter() {
-    const { data } = await client.from('charakters').select('id');
+    const { data } = await client.from('TABLE_NAME').select('id');
     if (!data || data.length === 0) return;
 
     const now = new Date();
@@ -45,7 +46,7 @@ async function loadSecretCharacter() {
     }
 
     const index = Math.floor(random() * data.length);
-    const { data: characterData } = await client.from('charakters').select('*').eq('id', data[index].id).single();
+    const { data: characterData } = await client.from('TABLE_NAME').select('*').eq('id', data[index].id).single();
     secretCharacter = characterData;
 }
 // Timer
@@ -79,7 +80,7 @@ updateTimer();
 input.addEventListener('input', async () => {
   const query = input.value.trim();
   if (query.length < 0) { suggestionsList.innerHTML = ''; return; }
-  const { data } = await client.from('charakters').select('name, img').ilike('name', `%${query}%`).limit(5);
+  const { data } = await client.from('TABLE_NAME').select('name, img').ilike('name', `%${query}%`).limit(5);
   suggestionsList.innerHTML = '';
   if (data) {
     data.forEach(item => {
@@ -112,7 +113,7 @@ document.getElementById('hintBtn').addEventListener('click', () => {
 // Main
 async function checkGuess() {
     if (!secretCharacter) return;
-    const { data } = await client.from('charakters').select('*').ilike('name', input.value.trim()).maybeSingle();
+    const { data } = await client.from('TABLE_NAME').select('*').ilike('name', input.value.trim()).maybeSingle();
     if (!data) { alert("Postava nenalezena!"); return; }
     
     attempts++;
