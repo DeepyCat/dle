@@ -44,22 +44,13 @@ body.mushuku-page { background-image: url('img/mushuku-bg.jpg'); }
     transition: 0.5s;
     padding-top: 60px;
 }
-
 .side-gallery.open { width: 250px; }
-
 .gallery-header { display: flex; justify-content: space-between; padding: 0 20px; color: white; }
 .gallery-item { display: flex; align-items: center; margin: 15px 20px; color: white; text-align: left; }
 .gallery-item img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; object-fit: cover; }
 
-#openGalleryBtn { position: fixed; top: 20px; left: 20px;  background-color: rgba(0, 0, 0, 0.6); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
+#openGalleryBtn { position: fixed; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.6); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
 #closeGalleryBtn { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
-
-.search-container { position: relative; display: inline-block; }
-input { padding: 12px; width: 280px; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-size: 16px; }
-
-#suggestions { list-style: none; padding: 0; margin: 5px 0 0 0; background: #2a2a2a; width: 280px; border-radius: 0 0 8px 8px; position: absolute; left: 0; top: 100%; z-index: 10; max-height: 200px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
-#suggestions li { padding: 10px; cursor: pointer; text-align: left; border-bottom: 1px solid #444; display: flex; align-items: center; }
-#suggestions li:hover { background: #444; }
 
 #gameBoard { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 30px; }
 .header-row, .attempt-row {
@@ -94,12 +85,21 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 .green { background-color: #27ae60; }
 .red { background-color: #c0392b; }
 
-#guessBtn, #hintBtn, #nextBtn { padding: 12px 25px; margin-left: 10px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.search-container { position: relative; display: inline-block; }
+input { padding: 12px; width: 280px; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-size: 16px; }
+
+#suggestions { list-style: none; padding: 0; margin: 5px 0 0 0; background: #2a2a2a; width: 280px; border-radius: 0 0 8px 8px; position: absolute; left: 0; top: 100%; z-index: 10; max-height: 200px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+#suggestions li { padding: 10px; cursor: pointer; text-align: left; border-bottom: 1px solid #444; display: flex; align-items: center; }
+#suggestions li:hover { background: #444; }
+
+#guessBtn, #hintBtn, #nextBtn, #endlessBtn { padding: 12px 25px; margin-left: 10px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
 #guessBtn { background-color: #2b2b2b; color: white; }
 #hintBtn { background-color: #3498db; color: white; }
 #hintBtn:hover { background-color: #2980b9; }
 #nextBtn { background-color: #575757; color: white; text-decoration: none; display: inline-block; }
 #nextBtn:hover { background-color: #707070; }
+#endlessBtn { background-color: #2525257e; color: white; }
+#endlessBtn:hover { background-color: #222222; }
 
 .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; }
 .popup-content { background: rgba(82, 82, 82, 0.4); padding: 30px; border-radius: 15px; text-align: center; color: white; border: 2px solid #4CAF50; box-shadow: 0 0 20px rgba(76, 175, 80, 0.3); }
@@ -115,138 +115,23 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 ::-webkit-scrollbar-thumb { background: #44444485; border-radius: 5px; border: 2px solid #1a1a1a2c; }
 ::-webkit-scrollbar-thumb:hover { background: #55555549; }
 
-#endlessBtn {
-    padding: 12px 25px;
-    margin-left: 10px;
-    background-color: #2525257e; 
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
 
-#endlessBtn:hover {
-    background-color: #222222;
-}
+.landing-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+.choice-btn { flex: 1; display: flex; justify-content: center; align-items: center; text-decoration: none; color: rgb(255, 255, 255); font-size: 2rem; transition: 0.5s; background-size: cover; background-position: center; position: relative; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
+.choice-btn::after { content: attr(data-text); font-size: 2.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); background: rgba(0, 0, 0, 0.3); padding: 15px 30px; border-radius: 50px; backdrop-filter: blur(5px); transition: 0.3s; }
+.choice-btn:hover::after { transform: scale(1.1); background: rgba(0, 0, 0, 0.5); }
+.choice-btn:hover { flex: 1.5; filter: brightness(1.2); z-index: 2; }
+
+.rezero { background-image: url('img/rezero-bg.jpg'); clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); background-position: 80% 50%; z-index: 3; }
+.mushoku { background-image: url('img/mushuku-bg.jpg'); clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); background-position: 80% 50%; margin-left: -2%; z-index: 2; }
+.konosuba { background-image: url('img/konosuba-bg.jpg'); clip-path: polygon(5% 0, 100% 0, 100% 100%, 0% 100%); background-position: 60% 50%; margin-left: -2%; z-index: 1; }
 
 
-.landing-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden; 
-}
-
-.choice-btn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    font-size: 2rem;
-    transition: 0.5s;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    
-    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-}
-.choice-btn::after {
-    content: attr(data-text); /* Nebo prostě napiš text přímo do HTML spanu */
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6); /* Stín pod písmem, aby vyniklo */
-    background: rgba(0, 0, 0, 0.3); /* Jemný tmavý filtr pod textem */
-    padding: 15px 30px;
-    border-radius: 50px; /* Zaoblený "pill" tvar */
-    backdrop-filter: blur(5px); /* Efekt rozmazání (sklo) */
-    transition: 0.3s;
-}
-
-/* Zvětšení při najetí myší */
-.choice-btn:hover::after {
-    transform: scale(1.1);
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.rezero { 
-    background-image: url('img/rezero-bg.jpg');
-    clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); 
-    background-position: 80% 50%;
-    z-index: 3;
-}
-
-
-.mushoku { 
-    background-image: url('img/mushuku-bg.jpg');
-    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); 
-    background-position: 80% 50%;
-    margin-left: -2%; 
-    z-index: 2;
-}
-
-
-.konosuba { 
-    background-image: url('img/konosuba-bg.jpg');
-    clip-path: polygon(5% 0, 100% 0, 100% 100%, 0% 100%); 
-    background-position: 60% 50%;
-    margin-left: -2%; 
-    z-index: 1;
-}
-
-.text {
-    background: rgba(0, 0, 0, 0.4); 
-    padding: 10px 20px;
-    border-radius: 10px;
-}
-
-.choice-btn:hover {
-    flex: 1.5; 
-    filter: brightness(1.2);
-    z-index: 2; 
-}
-
-/* Phone */
 @media screen and (max-width: 768px) {
-    .main-container {
-        width: 95%;
-        padding: 15px;
-        margin-top: 20px;
-    }
-
-    
-    .header-box, .box {
-        font-size: 0.65rem !important;
-        padding: 2px !important;
-    }
-
-   
-    .header-row, .attempt-row {
-        grid-template-columns: 40px repeat(9, 1fr);
-        gap: 2px;
-    }
-
-    
-    .box img {
-        width: 35px !important;
-        height: 35px !important;
-    }
-
-    
-    input {
-        width: 180px;
-        padding: 10px;
-    }
-
-    #guessBtn, #hintBtn, #nextBtn {
-        padding: 10px 15px;
-        font-size: 14px;
-    }
+    .main-container { width: 95%; padding: 15px; margin-top: 20px; }
+    .header-box, .box { font-size: 0.65rem !important; padding: 2px !important; }
+    .header-row, .attempt-row { grid-template-columns: 40px repeat(9, 1fr); gap: 2px; }
+    .box img { width: 35px !important; height: 35px !important; }
+    input { width: 180px; padding: 10px; }
+    #guessBtn, #hintBtn, #nextBtn { padding: 10px 15px; font-size: 14px; }
 }
