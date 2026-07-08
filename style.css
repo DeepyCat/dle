@@ -128,10 +128,67 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 
 
 @media screen and (max-width: 768px) {
-    .main-container { width: 95%; padding: 15px; margin-top: 20px; }
-    .header-box, .box { font-size: 0.65rem !important; padding: 2px !important; }
-    .header-row, .attempt-row { grid-template-columns: 40px repeat(9, 1fr); gap: 2px; }
-    .box img { width: 35px !important; height: 35px !important; }
-    input { width: 180px; padding: 10px; }
-    #guessBtn, #hintBtn, #nextBtn { padding: 10px 15px; font-size: 14px; }
+    .main-container {
+        width: 95%;
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .header-box, 
+    .box {
+        font-size: 0.65rem !important;
+        padding: 2px !important;
+    }
+
+    .header-row, 
+    .attempt-row {
+        grid-template-columns: 40px repeat(9, 1fr);
+        gap: 2px;
+    }
+
+    .box img {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    input {
+        width: 180px;
+        padding: 10px;
+    }
+
+    #guessBtn, 
+    #hintBtn, 
+    #nextBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .landing-container {
+        flex-direction: column;
+    }
+
+    .choice-btn {
+        clip-path: none !important;
+        margin-left: 0 !important;
+        flex: 1;
+        width: 100%;
+    }
+
+    #openGalleryBtn {
+        background: transparent !important;
+        border: none !important;
+        color: white !important;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 10000;
+    }
+
+    #openGalleryBtn:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 5px;
+    }
 }
