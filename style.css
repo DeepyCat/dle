@@ -174,18 +174,20 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
         
     }
 
-    .rezero { 
-        clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%); 
+       .rezero { 
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); 
+        margin-top: -90px;
+        background-position: 0% -10500%;
     }
     
     .mushoku { 
-        clip-path: polygon(0 0, 100% 15%, 100% 85%, 0% 100%); 
-        margin-top: -50px; /
+        clip-path: polygon(0 0, 100% 15%, 100% 90%, 0% 100%); 
+        margin-top: -100px; 
     }
     
     .konosuba { 
         clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0% 100%); 
-        margin-top: -50px; 
+        margin-top: -100px; 
     }
 
     #openGalleryBtn {
