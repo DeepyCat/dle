@@ -8,6 +8,9 @@ const suggestionsList = document.getElementById('suggestions');
 let secretCharacter = null;
 let attempts = 0;
 
+let isEndless = false;
+
+
 //Galery
 async function loadGallery() {
     const { data } = await client.from(TABLE_NAME).select('name, img');
@@ -48,7 +51,33 @@ async function loadSecretCharacter() {
     const index = Math.floor(random() * data.length);
     const { data: characterData } = await client.from(TABLE_NAME).select('*').eq('id', data[index].id).single();
     secretCharacter = characterData;
+    resetHint();
 }
+
+// mode swithc
+document.getElementById('endlessBtn').addEventListener('click', () => {
+    isEndless = !isEndless;
+    document.getElementById('endlessBtn').innerText = `Endless Mode: ${isEndless ? 'ON' : 'OFF'}`;
+    if (isEndless) loadRandomCharacter(); 
+});
+
+//endless mode
+async function loadRandomCharacter() {
+    const { data } = await client.from(TABLE_NAME).select('id');
+    if (!data || data.length === 0) return;
+    
+    const randomId = data[Math.floor(Math.random() * data.length)].id;
+    const { data: characterData } = await client.from(TABLE_NAME).select('*').eq('id', randomId).single();
+    secretCharacter = characterData;
+    resetHint();
+    
+    document.getElementById('gameBoard').innerHTML = '';
+    attempts = 0;
+    document.getElementById('attemptCount').innerText = attempts;
+    input.disabled = false;
+    document.getElementById('guessBtn').disabled = false;
+}
+
 // Timer
 function updateTimer() {
     const now = new Date();
@@ -76,22 +105,92 @@ function updateTimer() {
 loadSecretCharacter();
 setInterval(updateTimer, 1000);
 updateTimer();
-// Fih
+
+// clicl and search
+async function performSearch() {
+    const query = input.value.trim();
+    if (query.length === 0) {
+        suggestionsList.innerHTML = '';
+        return;
+    }
+
+    const { data } = await client.from(TABLE_NAME).select('name, img').ilike('name', `%${query}%`).limit(5);
+    suggestionsList.innerHTML = '';
+
+    if (data) {
+        data.forEach(item => {
+            const li = document.createElement('li');
+            const img = document.createElement('img');
+            img.src = item.img;
+            img.style.width = '30px'; img.style.height = '30px'; img.style.borderRadius = '50%'; img.style.marginRight = '10px';
+            li.appendChild(img);
+            li.append(item.name);
+            li.onclick = (e) => {
+                e.stopPropagation();
+                input.value = item.name;
+                suggestionsList.innerHTML = '';
+            };
+            suggestionsList.appendChild(li);
+        });
+    }
+}
+
+
+input.addEventListener('input', performSearch);
+
+
+input.addEventListener('click', performSearch);
+
+
+document.addEventListener('click', (e) => {
+    if (e.target !== input) {
+        suggestionsList.innerHTML = '';
+    }
+});
+
+// Fih 
 input.addEventListener('input', async () => {
-  const query = input.value.trim();
-  if (query.length < 0) { suggestionsList.innerHTML = ''; return; }
-  const { data } = await client.from(TABLE_NAME).select('name, img').ilike('name', `%${query}%`).limit(5);
-  suggestionsList.innerHTML = '';
-  if (data) {
-    data.forEach(item => {
-      const li = document.createElement('li');
-      const img = document.createElement('img');
-      img.src = item.img; img.style.width = '30px'; img.style.height = '30px'; img.style.borderRadius = '50%'; img.style.marginRight = '10px';
-      li.appendChild(img); li.append(item.name);
-      li.onclick = () => { input.value = item.name; suggestionsList.innerHTML = ''; };
-      suggestionsList.appendChild(li);
-    });
-  }
+    const query = input.value.trim();
+    if (query.length === 0) { 
+        suggestionsList.innerHTML = ''; 
+        return; 
+    }
+
+    const { data } = await client.from(TABLE_NAME).select('name, img').ilike('name', `%${query}%`).limit(5);
+    
+    
+    suggestionsList.innerHTML = '';
+
+    if (data) {
+        data.forEach(item => {
+            const li = document.createElement('li');
+            const img = document.createElement('img');
+            img.src = item.img; 
+            img.style.width = '30px'; 
+            img.style.height = '30px'; 
+            img.style.borderRadius = '50%'; 
+            img.style.marginRight = '10px';
+            
+            li.appendChild(img); 
+            li.append(item.name);
+            
+            // TADY je ta klíčová akce:
+            li.onclick = (e) => { 
+                e.stopPropagation(); // Zastaví šíření eventu, aby se seznam hned znovu neotevřel
+                input.value = item.name; 
+                suggestionsList.innerHTML = ''; // Seznam zmizí okamžitě
+            };
+            
+            suggestionsList.appendChild(li);
+        });
+    }
+});
+
+
+document.addEventListener('click', (e) => {
+    if (e.target !== input) {
+        suggestionsList.innerHTML = '';
+    }
 });
 //hint
 document.getElementById('hintBtn').addEventListener('click', () => {
@@ -110,11 +209,33 @@ document.getElementById('hintBtn').addEventListener('click', () => {
     document.getElementById('hintBtn').disabled = true;
     document.getElementById('hintBtn').style.opacity = '0.5';
 });
+//hint restart
+function resetHint() {
+    const hintBtn = document.getElementById('hintBtn');
+    const hintDisplay = document.getElementById('hintDisplay');
+    
+    hintBtn.disabled = false;     
+    hintBtn.style.opacity = '1';  
+    hintDisplay.innerText = '';   
+}
 // Main
 async function checkGuess() {
     if (!secretCharacter) return;
     const { data } = await client.from(TABLE_NAME).select('*').ilike('name', input.value.trim()).maybeSingle();
     if (!data) { alert("Postava nenalezena!"); return; }
+
+    if (data.name === secretCharacter.name) {
+        
+        if (isEndless) {
+            setTimeout(() => {
+               
+                loadRandomCharacter();
+            }, 1000);
+        } else {
+            document.getElementById('winPopup').style.display = 'flex';
+            
+        }
+    }
     
     attempts++;
     document.getElementById('attemptCount').innerText = attempts;

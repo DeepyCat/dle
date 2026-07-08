@@ -114,6 +114,24 @@ input { padding: 12px; width: 280px; border-radius: 8px; border: none; backgroun
 ::-webkit-scrollbar-thumb { background: #44444485; border-radius: 5px; border: 2px solid #1a1a1a2c; }
 ::-webkit-scrollbar-thumb:hover { background: #55555549; }
 
+#endlessBtn {
+    padding: 12px 25px;
+    margin-left: 10px;
+    background-color: #2525257e; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#endlessBtn:hover {
+    background-color: #222222;
+}
+
+
 @media screen and (max-width: 768px) {
     .main-container {
         width: 95%;
