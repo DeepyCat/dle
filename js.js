@@ -1,7 +1,7 @@
 const SUPABASE_URL = 'https://lhthnrgmxxvngmggqllc.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_ksCxhs8SKCcnoPkeN3aH7g_Pu5ZVJ1D';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const TABLE_NAME = window.TABLE_NAME || 'charakters';
+const TABLE_NAME = window.TABLE_NAME || 'rezero';
 
 const input = document.getElementById('guessInput');
 const suggestionsList = document.getElementById('suggestions');
