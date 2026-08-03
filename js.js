@@ -11,12 +11,18 @@ let attempts = 0;
 let isEndless = false;
 
 
+
+
 //Galery
 async function loadGallery() {
-    const { data } = await client.from(TABLE_NAME).select('name, img');
-    if (data) {
+
+  const { data } = await client.from(TABLE_NAME).select('name, img').range(0, 999);
+    
+   if (data) {
         data.sort((a, b) => a.name.localeCompare(b.name));
         const galleryContent = document.getElementById('galleryContent');
+        galleryContent.innerHTML = ''; 
+        
         data.forEach(char => {
             const div = document.createElement('div');
             div.className = 'gallery-item';
@@ -174,11 +180,11 @@ input.addEventListener('input', async () => {
             li.appendChild(img); 
             li.append(item.name);
             
-            // TADY je ta klíčová akce:
+            
             li.onclick = (e) => { 
-                e.stopPropagation(); // Zastaví šíření eventu, aby se seznam hned znovu neotevřel
+                e.stopPropagation(); 
                 input.value = item.name; 
-                suggestionsList.innerHTML = ''; // Seznam zmizí okamžitě
+                suggestionsList.innerHTML = ''; 
             };
             
             suggestionsList.appendChild(li);
@@ -222,18 +228,14 @@ function resetHint() {
 async function checkGuess() {
     if (!secretCharacter) return;
     const { data } = await client.from(TABLE_NAME).select('*').ilike('name', input.value.trim()).maybeSingle();
-    if (!data) { alert("Postava nenalezena!"); return; }
 
     if (data.name === secretCharacter.name) {
-        
         if (isEndless) {
             setTimeout(() => {
-               
                 loadRandomCharacter();
             }, 1000);
         } else {
             document.getElementById('winPopup').style.display = 'flex';
-            
         }
     }
     
@@ -256,16 +258,26 @@ async function checkGuess() {
     
     attrs.forEach(attr => {
         const val = data[attr.key];
-        const isCorrect = (val === secretCharacter[attr.key]);
+        const secretVal = secretCharacter[attr.key];
+        const isCorrect = (val === secretVal);
         const div = document.createElement('div');
         div.className = `box ${isCorrect ? 'green' : 'red'}`;
         let content = val;
-        if (!isCorrect && (attr.key === 'age' || attr.key === 'arc') && !isNaN(val) && !isNaN(secretCharacter[attr.key])) {
-             content += (parseInt(val) < parseInt(secretCharacter[attr.key]) ? " ⬆" : " ⬇");
+
+        
+        if (!isCorrect && (attr.key === 'age' || attr.key === 'arc')) {
+            const numVal = parseInt(val);
+            const numSecret = parseInt(secretVal);
+            
+            if (!isNaN(numVal) && !isNaN(numSecret)) {
+                content += (numVal < numSecret ? " ⬆" : " ⬇");
+            }
         }
+
         div.innerText = content;
         attemptRow.appendChild(div);
     });
+
     
     document.getElementById('gameBoard').prepend(attemptRow);
     input.value = '';
