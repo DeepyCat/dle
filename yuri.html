@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>PeakdleV2 - Yuri</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/DeepyCat/dle/refs/heads/main/img/Flogo.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image" content="https://raw.githubusercontent.com/DeepyCat/dle/refs/heads/main/img/yuri.jpg">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PeakdleV2: The ultimate daily guessing game for Re:Zero, Konosuba and Mushoku Tensei characters. Test your knowledge.">
+</head>
+
+<body class="yuri-page">
+    <button id="openGalleryBtn">☰</button>
+
+    <div id="sideGallery" class="side-gallery">
+        <div class="gallery-header">
+            <h3>A little help</h3>
+            <button id="closeGalleryBtn">✕</button>
+        </div>
+        <div id="galleryContent"></div>
+    </div>
+    <div class="main-container">
+        <a href="index.html" id="nextBtn">Hub</a>
+   
+            <h1>PeakdleV2</h1>
+            <button id="endlessBtn">Endless Mode: OFF</button>
+            <p>Daily most Yuri characters </p>
+            
+            <div class="timer-container">
+            Next character: <span id="timer">00:00:00</span>
+            </div>
+            <br>
+            
+            <div class="search-container">
+                <input type="text" id="guessInput" placeholder="Name" autocomplete="off">
+                <ul id="suggestions"></ul>
+            </div>
+
+            <button id="guessBtn">Guess</button>
+            <button id="hintBtn">Hint</button>
+
+            <p id="hintDisplay" style="color: #ffffff; font-style: italic; margin-top: 10px;"></p>
+
+            <p>Tries: <span id="attemptCount">0</span></p>
+            
+        <div id="winPopup" class="popup-overlay" style="display:none;">
+            <div class="popup-content">
+                <h2 id="winMessage"></h2>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        </div>
+
+            <div class="header-row">
+                <div class="header-box">Img</div>
+                <div class="header-box">Name</div>
+                <div class="header-box">Gender</div>
+                <div class="header-box">Role</div>
+                <div class="header-box">Race</div>
+                <div class="header-box">Age</div>
+                <div class="header-box">Hair</div>
+                <div class="header-box">Eyes</div>
+                <div class="header-box">Affiliation</div>
+                <div class="header-box">Arc</div>
+            </div>
+            <div id="gameBoard"></div>
+            <p class="desc"> How to play? Type a character's name, and the game will show red (wrong), green (correct), or arrows pointing up or down for hints.<br> I'm a Czech IT student with too much free time and a little obsession with isekai and yuri manga... Yeah. Other guessing games have their databases so fucked up that I said, 'I'm going to make my own guessing web page,' and now we are here.</p>
+            <div id="winPopup" class="popup-overlay">
+        
+        </div>
+    </div>
+    <script>
+    window.TABLE_NAME = 'yuri';
+</script>
+<script src="js.js"></script>
+</body>
+</html>
